@@ -1,0 +1,84 @@
+:root {
+	/*my custom color-schemes */
+
+	--accent-primary: var(--dark, 0 106 58) var(--light, 0 187 95);
+	--accent-primary-100: rgb(var(--accent-primary) / 1);
+	--accent-primary-80: rgb(var(--accent-primary) / 0.8);
+	--accent-primary-60: rgb(var(--accent-primary) / 0.6);
+	--accent-primary-40: rgb(var(--accent-primary) / 0.4);
+	--accent-primary-20: rgb(var(--accent-primary) / 0.2);
+
+	--accent-secondary: var(--dark, 0 255 102) var(--light, 16 25 35);
+	--accent-secondary-100: rgb(var(--accent-secondary) / 1);
+	--accent-secondary-80: rgb(var(--accent-secondary) / 0.8);
+	--accent-secondary-60: rgb(var(--accent-secondary) / 0.6);
+	--accent-secondary-40: rgb(var(--accent-secondary) / 0.4);
+	--accent-secondary-20: rgb(var(--accent-secondary) / 0.2);
+
+	/*general settings*/
+	/*--omni-bg: var(--dark, var(--accent-primary-20)) var(--light, var(--accent-primary-20));*/
+
+	--omni-bg: var(--primary-color-5);
+	--omni-txt: var(--secondary-color);
+	--adaptive-padding: clamp(5px, 0px + 3vw, 30px);
+	/*--adaptive-weight: */
+}
+html {
+	margin: 0px;
+	padding: 0px;
+
+	background-color: var(--omni-bg);
+	color: var(--omni-txt);
+}
+main {
+	padding: var(--adaptive-padding);
+	display: grid;
+	grid-template-areas:
+		"topbar topbar topbar"
+		"ads content sidebar"
+		"footer footer  footer";
+	/*color: white;*/
+}
+header {
+	grid-area: topbar;
+}
+aside {
+	grid-area: ads;
+}
+article {
+	grid-area: content;
+}
+nav {
+	grid-area: sidebar;
+}
+footer {
+	grid-area: footer;
+}
+body {
+	padding: 0px;
+
+	margin: 0px;
+
+	background-color: var(--omni-bg);
+	color: var(--omni-txt);
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 15px;
+	font-optical-sizing: auto;
+	font-style: normal;
+	font-weight: 400;
+}
+a {
+	cursor: pointer;
+}
+
+.body_part {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: var(--adaptive-padding);
+}
+/** {
+	border-radius: 30px;
+	border: 1px solid yellowgreen;
+	overflow: visible;
+}*/

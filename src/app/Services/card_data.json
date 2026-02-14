@@ -1,0 +1,10 @@
+{
+	"shop_id": {
+		"name": "Shop Name",
+		"tags": ["dragon", "grill", "curry", "warrior"],
+		"timing": "9:30AM to 3:00PM",
+		"now": true,
+		"image": "link",
+		"website": "link"
+	}
+}

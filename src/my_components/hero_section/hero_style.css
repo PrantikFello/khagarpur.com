@@ -1,0 +1,17 @@
+.hero_divs {
+	/*width: 50%;*/
+	/*margin: 30px;*/
+}
+
+.hero_img {
+	height: clamp(250px, 200px + 20vw, 600px);
+}
+
+.hero_h1 {
+	padding: 0;
+	margin: 0;
+	font-size: clamp(2rem, 2rem + 5vw, 5rem);
+}
+.super_hero {
+	align-items: center;
+}

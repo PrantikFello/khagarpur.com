@@ -1,0 +1,29 @@
+.flexing_adaptive,
+.flexing_row,
+.flexing_iterations,
+.flexing_column {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.borders_none {
+	border: none;
+	border-radius: 20px;
+}
+
+@media (max-width: 600px) {
+	.flexing_adaptive {
+		flex-direction: column;
+	}
+}
+
+.flexing_iterations {
+	flex-wrap: wrap;
+}
+.flexing_row {
+	flex-direction: row;
+}
+.flexing_column {
+	flex-direction: column;
+}
