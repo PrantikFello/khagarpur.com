@@ -10,3 +10,7 @@ git add -p
 git diff --cached
 git commit -m "Precise change"
 git push
+
+
+
+git push -u origin main --force

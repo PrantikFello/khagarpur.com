@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { One, Two } from "../gradient_buttons/gradient_button";
 

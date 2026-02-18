@@ -1,7 +1,8 @@
 .flexing_adaptive,
 .flexing_row,
 .flexing_iterations,
-.flexing_column {
+.flexing_column,
+.flexing_iterations {
 	width: 100%;
 	display: flex;
 	align-items: center;
@@ -12,18 +13,24 @@
 	border-radius: 20px;
 }
 
-@media (max-width: 600px) {
-	.flexing_adaptive {
-		flex-direction: column;
-	}
+.flexing_column {
+	flex-direction: column;
 }
-
 .flexing_iterations {
 	flex-wrap: wrap;
 }
 .flexing_row {
 	flex-direction: row;
 }
-.flexing_column {
-	flex-direction: column;
+.flexing_reverse {
+	flex-direction: row-reverse;
+}
+
+@media (600px > width) {
+	.flexing_adaptive {
+		flex-direction: column;
+	}
+	/*.flexing_reverse {
+		flex-direction:;
+	}*/
 }

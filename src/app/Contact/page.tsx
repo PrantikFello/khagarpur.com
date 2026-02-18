@@ -1,23 +1,8 @@
-import Contact_Card from "./contact_card";
-import "./card_containers.css";
+import Service_Card_Iterator from "@/my_components/service_card/service_card_iterator";
 export default function Contact() {
 	return (
-		<div className="grid_super">
-			<div className="flexing_iterations" style={{ gap: 10 }}>
-				<Contact_Card></Contact_Card>
-
-				<Contact_Card></Contact_Card>
-
-				<Contact_Card></Contact_Card>
-
-				<Contact_Card></Contact_Card>
-				<Contact_Card></Contact_Card>
-
-				<Contact_Card></Contact_Card>
-				<Contact_Card></Contact_Card>
-
-				<Contact_Card></Contact_Card>
-			</div>
+		<div className="">
+			<div className="flexing_iterations" style={{ gap: 10 }}></div>
 		</div>
 	);
 }
