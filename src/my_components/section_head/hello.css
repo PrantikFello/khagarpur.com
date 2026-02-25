@@ -1,0 +1,8 @@
+.hello_div {
+	height: 100vh;
+	background-image: linear-gradient(45deg, var(--accent-primary-20), transparent, var(--accent-primary-20));
+}
+.hello {
+	font-weight: 800;
+	font-size: 3rem;
+}

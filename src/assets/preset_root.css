@@ -8,7 +8,7 @@
 	--accent-primary-40: rgb(var(--accent-primary) / 0.4);
 	--accent-primary-20: rgb(var(--accent-primary) / 0.2);
 
-	--accent-secondary: var(--dark, 0 255 102) var(--light, 16 25 35);
+	--accent-secondary: var(--dark, 3 226 255) var(--light, 0 64 72);
 	--accent-secondary-100: rgb(var(--accent-secondary) / 1);
 	--accent-secondary-80: rgb(var(--accent-secondary) / 0.8);
 	--accent-secondary-60: rgb(var(--accent-secondary) / 0.6);
