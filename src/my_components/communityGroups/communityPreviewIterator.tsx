@@ -1,6 +1,6 @@
 "use client";
 
-import { useOrganizations } from "@/DataAccessLayer/organozationsDAL";
+import { useOrganizations } from "@/my_components/communityGroups/organozationsDAL";
 import CommunityPreviewCard from "./communityPreviewCard";
 
 export default function CommunityPreviewIterator() {

@@ -1,5 +1,8 @@
-import { Link_Prefix } from '@/lib/links';
-import React from 'react';
+"use client";
+
+import React from "react";
+import { Link_Prefix } from "@/lib/links";
+import { useHomeCards } from "./queries";
 
 export interface HomeCardItem {
   title: string;
@@ -33,7 +36,7 @@ export const HomeCard: React.FC<HomeCardProps> = ({
   return (
     <article
       className={`snap_div flex w-full flex-col-reverse items-center justify-evenly gap-8 py-10 sm:flex-row ${
-        reverse ? 'sm:flex-row-reverse' : ''
+        reverse ? "sm:flex-row-reverse" : ""
       }`}
     >
       <div className="w-full sm:w-[50%]">
@@ -64,23 +67,18 @@ export const HomeCard: React.FC<HomeCardProps> = ({
   );
 };
 
-export default async function HomeCardSection() {
-  let cards: HomeCardItem[] = [];
+export default function HomeCardSection() {
+  const { data, isLoading, isError } = useHomeCards();
 
-  try {
-    const res = await fetch(`${Link_Prefix}/homepage/data/homeCards.json`, {
-      cache: 'no-store', // or standard revalidation config if using Next.js data cache
-    });
-    
-    if (res.ok) {
-      const data: HomeCardsResponse = await res.json();
-      cards = data.home_cards || [];
-    }
-  } catch (error) {
-    console.error("Failed to fetch home cards JSON:", error);
+  if (isLoading) {
+    return null; // Or render a skeleton loader
   }
 
-//   const imagePrefix = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  if (isError) {
+    return null; // Or render an error fallback
+  }
+
+  const cards: HomeCardItem[] = data?.home_cards ?? [];
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">

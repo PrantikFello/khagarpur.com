@@ -6,8 +6,8 @@ import MiniSearch, { type SearchResult } from "minisearch";
 import type { ServiceCardData } from "../businesses/service_card_types";
 import type { CommunityStruct } from "../communityGroups/communityType";
 import { Link_Prefix } from "@/lib/links";
-import { useBusinesses } from "@/DataAccessLayer/businnessesDAL";
-import { useOrganizations } from "@/DataAccessLayer/organozationsDAL";
+import { useBusinesses } from "@/my_components/businesses/businnessesDAL";
+import { useOrganizations } from "@/my_components/communityGroups/organozationsDAL";
 
 // --- TYPE DEFINITIONS ---
 interface UnifiedSearchItem {

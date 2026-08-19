@@ -5,6 +5,7 @@ import Navbar from "@/app/Navbar/navbar";
 import ClickSpark from "../components/ClickSpark";
 import GlobalSearch from "@/my_components/miniSearchComp/miniSearch";
 import { TSQueryProvider } from "@/DataAccessLayer/tanstack_DAL";
+import ClientOnly from "@/lib/clientOnly";
 
 
 export const metadata: Metadata = {
@@ -27,6 +28,7 @@ export default function RootLayout({
 				<GlobalSearch />
 				<Navbar />
 				<main className="w-full bg-primary">
+					<ClientOnly>
 					<ClickSpark
 						sparkColor="#777777"
 						sparkSize={10}
@@ -35,7 +37,7 @@ export default function RootLayout({
 						duration={1100}
 					>
 						<div className="w-full">{children}</div>
-					</ClickSpark>
+					</ClickSpark></ClientOnly>
 				</main>
 				</TSQueryProvider>
 			</body>

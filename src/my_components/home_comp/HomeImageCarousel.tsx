@@ -1,7 +1,10 @@
 "use client";
-import Grainient from "@/components/Grainient"
-import InfiniteImageSlider from "../InfiniteImageCarouselAuto/ImageSliderFunction"
 
+import dynamic from "next/dynamic";
+import InfiniteImageSlider from "@/my_components/InfiniteImageCarouselAuto/ImageSliderFunction"
+const Grainient = dynamic(() => import("@/components/Grainient"), {
+  ssr: false,
+});
 export default function HomeImageCarousel() {
 	return (
 		<div>

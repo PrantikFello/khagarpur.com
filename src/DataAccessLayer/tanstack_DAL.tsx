@@ -10,7 +10,7 @@ export function TSQueryProvider({ children }: { children: ReactNode }) {
             new QueryClient({
                 defaultOptions: {
                     queries: {
-                        staleTime: 1000 * 60 * 5, //5min
+                        staleTime: 1000 * 60 * 30, //30min
                         gcTime: 1000 * 60 * 30,   //30min
                         retry: 2, refetchOnWindowFocus: false,
                     },

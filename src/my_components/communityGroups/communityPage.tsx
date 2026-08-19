@@ -1,8 +1,8 @@
 "use client";
 
-import SocialLinks from "../socialMedia/socialMedia";
+import SocialLinks from "@/my_components/socialMedia/socialMedia";
 
-import InfiniteImageSlider from "../InfiniteImageCarouselAuto/ImageSliderFunction";
+import InfiniteImageSlider from "@/my_components/InfiniteImageCarouselAuto/ImageSliderFunction";
 import { motion } from "motion/react";
 import SafeImage from "@/lib/safeImage";
 import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
@@ -29,7 +29,6 @@ export default function CommunityPage({ data }: { data: CommunityStruct }) {
             src={data.profilePhoto}
             alt={data.groupName || "Community Banner"}
             fill
-            priority
             sizes="100vw"
             className="absolute inset-0 h-full w-full object-cover object-center z-10"
           />

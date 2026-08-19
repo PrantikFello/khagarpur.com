@@ -1,52 +1,24 @@
 "use client";
 
-import LaserFlow from "@/components/LaserFlow";
-import { Link_Prefix } from "@/lib/links";
 import { motion } from "motion/react";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, type CSSProperties } from "react";
-import InfiniteImageSlider from "../InfiniteImageCarouselAuto/ImageSliderFunction";
+import { type CSSProperties } from "react";
+import InfiniteImageSlider from "@/my_components/InfiniteImageCarouselAuto/ImageSliderFunction";
+import dynamic from "next/dynamic";
+import { useImageSlider } from "./queries";
+
+const LaserFlow = dynamic(() => import("@/components/LaserFlow"), {
+  ssr: false,
+});
 
 type HeroStyle = CSSProperties & {
   "--glow": string;
   "--border-glow": string;
 };
 
-interface ImageSliderResponse {
-  imageUrls: string[];
-}
-
 export default function Hero() {
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    async function fetchCarouselImages() {
-      try {
-        const response = await fetch(`${Link_Prefix}/homepage/data/imageSliderHome.json`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data: ImageSliderResponse = await response.json();
-        
-        if (isMounted && Array.isArray(data.imageUrls)) {
-          setImageUrls(data.imageUrls);
-        }
-      } catch (error) {
-        console.error("Failed to fetch image slider JSON:", error);
-      } finally {
-        if (isMounted) setIsLoading(false);
-      }
-    }
-
-    fetchCarouselImages();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const { data, isLoading } = useImageSlider();
+  const imageUrls = data?.imageUrls ?? [];
 
   return (
     <div className="snap_div relative flex w-screen flex-col items-center justify-center overflow-x-visible">
@@ -71,7 +43,6 @@ export default function Hero() {
 
 export function HeroTextBox() {
   const pathname = usePathname();
-
   const colorLazer = "#88ff00";
 
   const heroStyle: HeroStyle = {
@@ -129,3 +100,5 @@ export function HeroTextBox() {
     </motion.div>
   );
 }
+
+

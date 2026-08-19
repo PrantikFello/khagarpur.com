@@ -1,9 +1,22 @@
-import { useEffect, useRef } from 'react';
+"use client";
+
+import React, { useEffect, useRef } from 'react';
 import { Renderer, Program, Mesh, Triangle, Transform, Vec3, Camera } from 'ogl';
 
-import './MetaBalls.css';
+type MetaBallsProps = {
+  color?: string;
+  speed?: number;
+  enableMouseInteraction?: boolean;
+  hoverSmoothness?: number;
+  animationSize?: number;
+  ballCount?: number;
+  clumpFactor?: number;
+  cursorBallSize?: number;
+  cursorBallColor?: string;
+  enableTransparency?: boolean;
+};
 
-function parseHexColor(hex) {
+function parseHexColor(hex: string): [number, number, number] {
   const c = hex.replace('#', '');
   const r = parseInt(c.substring(0, 2), 16) / 255;
   const g = parseInt(c.substring(2, 4), 16) / 255;
@@ -11,11 +24,11 @@ function parseHexColor(hex) {
   return [r, g, b];
 }
 
-function fract(x) {
+function fract(x: number): number {
   return x - Math.floor(x);
 }
 
-function hash31(p) {
+function hash31(p: number): number[] {
   let r = [p * 0.1031, p * 0.103, p * 0.0973].map(fract);
   const r_yzx = [r[1], r[2], r[0]];
   const dotVal = r[0] * (r_yzx[0] + 33.33) + r[1] * (r_yzx[1] + 33.33) + r[2] * (r_yzx[2] + 33.33);
@@ -25,7 +38,7 @@ function hash31(p) {
   return r;
 }
 
-function hash33(v) {
+function hash33(v: number[]): number[] {
   let p = [v[0] * 0.1031, v[1] * 0.103, v[2] * 0.0973].map(fract);
   const p_yxz = [p[1], p[0], p[2]];
   const dotVal = p[0] * (p_yxz[0] + 33.33) + p[1] * (p_yxz[1] + 33.33) + p[2] * (p_yxz[2] + 33.33);
@@ -35,7 +48,7 @@ function hash33(v) {
   const p_xxy = [p[0], p[0], p[1]];
   const p_yxx = [p[1], p[0], p[0]];
   const p_zyx = [p[2], p[1], p[0]];
-  const result = [];
+  const result: number[] = [];
   for (let i = 0; i < 3; i++) {
     result[i] = fract((p_xxy[i] + p_yxx[i]) * p_zyx[i]);
   }
@@ -46,7 +59,7 @@ const vertex = `#version 300 es
 precision highp float;
 layout(location = 0) in vec2 position;
 void main() {
-  gl_Position = vec4(position, 0.0, 1.0);
+    gl_Position = vec4(position, 0.0, 1.0);
 }
 `;
 
@@ -65,38 +78,45 @@ uniform float iClumpFactor;
 uniform bool enableTransparency;
 out vec4 outColor;
 const float PI = 3.14159265359;
-
+ 
 float getMetaBallValue(vec2 c, float r, vec2 p) {
-  vec2 d = p - c;
-  float dist2 = dot(d, d);
-  return (r * r) / dist2;
+    vec2 d = p - c;
+    float dist2 = dot(d, d);
+    return (r * r) / dist2;
 }
-
+ 
 void main() {
-  vec2 fc = gl_FragCoord.xy;
-  float scale = iAnimationSize / iResolution.y;
-  vec2 coord = (fc - iResolution.xy * 0.5) * scale;
-  vec2 mouseW = (iMouse.xy - iResolution.xy * 0.5) * scale;
-  float m1 = 0.0;
-  for (int i = 0; i < 50; i++) {
-    if (i >= iBallCount) break;
-    m1 += getMetaBallValue(iMetaBalls[i].xy, iMetaBalls[i].z, coord);
-  }
-  float m2 = getMetaBallValue(mouseW, iCursorBallSize, coord);
-  float total = m1 + m2;
-  float f = smoothstep(-1.0, 1.0, (total - 1.3) / min(1.0, fwidth(total)));
-  vec3 cFinal = vec3(0.0);
-  if (total > 0.0) {
-    float alpha1 = m1 / total;
-    float alpha2 = m2 / total;
-    cFinal = iColor * alpha1 + iCursorColor * alpha2;
-  }
-  outColor = vec4(cFinal * f, enableTransparency ? f : 1.0);
+    vec2 fc = gl_FragCoord.xy;
+    float scale = iAnimationSize / iResolution.y;
+    vec2 coord = (fc - iResolution.xy * 0.5) * scale;
+    vec2 mouseW = (iMouse.xy - iResolution.xy * 0.5) * scale;
+    float m1 = 0.0;
+    for (int i = 0; i < 50; i++) {
+        if (i >= iBallCount) break;
+        m1 += getMetaBallValue(iMetaBalls[i].xy, iMetaBalls[i].z, coord);
+    }
+    float m2 = getMetaBallValue(mouseW, iCursorBallSize, coord);
+    float total = m1 + m2;
+    float f = smoothstep(-1.0, 1.0, (total - 1.3) / min(1.0, fwidth(total)));
+    vec3 cFinal = vec3(0.0);
+    if (total > 0.0) {
+        float alpha1 = m1 / total;
+        float alpha2 = m2 / total;
+        cFinal = iColor * alpha1 + iCursorColor * alpha2;
+    }
+    outColor = vec4(cFinal * f, enableTransparency ? f : 1.0);
 }
 `;
 
-const MetaBalls = ({
-  className = '',
+type BallParams = {
+  st: number;
+  dtFactor: number;
+  baseScale: number;
+  toggle: number;
+  radius: number;
+};
+
+const MetaBalls: React.FC<MetaBallsProps> = ({
   color = '#ffffff',
   speed = 0.3,
   enableMouseInteraction = true,
@@ -106,16 +126,20 @@ const MetaBalls = ({
   clumpFactor = 1,
   cursorBallSize = 3,
   cursorBallColor = '#ffffff',
-  enableTransparency = true
+  enableTransparency = false
 }) => {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     const dpr = 1;
-    const renderer = new Renderer({ dpr, alpha: true, premultipliedAlpha: false });
+    const renderer = new Renderer({
+      dpr,
+      alpha: true,
+      premultipliedAlpha: false
+    });
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, enableTransparency ? 0 : 1);
     container.appendChild(gl.canvas);
@@ -134,7 +158,7 @@ const MetaBalls = ({
     const [r1, g1, b1] = parseHexColor(color);
     const [r2, g2, b2] = parseHexColor(cursorBallColor);
 
-    const metaBallsUniform = [];
+    const metaBallsUniform: Vec3[] = [];
     for (let i = 0; i < 50; i++) {
       metaBallsUniform.push(new Vec3(0, 0, 0));
     }
@@ -163,7 +187,7 @@ const MetaBalls = ({
 
     const maxBalls = 50;
     const effectiveBallCount = Math.min(ballCount, maxBalls);
-    const ballParams = [];
+    const ballParams: BallParams[] = [];
     for (let i = 0; i < effectiveBallCount; i++) {
       const idx = i + 1;
       const h1 = hash31(idx);
@@ -186,15 +210,15 @@ const MetaBalls = ({
       const width = container.clientWidth;
       const height = container.clientHeight;
       renderer.setSize(width * dpr, height * dpr);
-      gl.canvas.style.width = width + 'px';
-      gl.canvas.style.height = height + 'px';
+      gl.canvas.style.width = `${width}px`;
+      gl.canvas.style.height = `${height}px`;
       program.uniforms.iResolution.value.set(gl.canvas.width, gl.canvas.height, 0);
     }
     window.addEventListener('resize', resize);
     resize();
 
-    function onPointerMove(e) {
-      if (!enableMouseInteraction) return;
+    function onPointerMove(e: PointerEvent) {
+      if (!enableMouseInteraction || !container) return;
       const rect = container.getBoundingClientRect();
       const px = e.clientX - rect.left;
       const py = e.clientY - rect.top;
@@ -214,8 +238,8 @@ const MetaBalls = ({
     container.addEventListener('pointerleave', onPointerLeave);
 
     const startTime = performance.now();
-    let animationFrameId;
-    function update(t) {
+    let animationFrameId: number;
+    function update(t: number) {
       animationFrameId = requestAnimationFrame(update);
       const elapsed = (t - startTime) * 0.001;
       program.uniforms.iTime.value = elapsed;
@@ -231,7 +255,7 @@ const MetaBalls = ({
         metaBallsUniform[i].set(posX, posY, p.radius);
       }
 
-      let targetX, targetY;
+      let targetX: number, targetY: number;
       if (pointerInside) {
         targetX = pointerX;
         targetY = pointerY;
@@ -273,7 +297,7 @@ const MetaBalls = ({
     enableTransparency
   ]);
 
-  return <div ref={containerRef} className={`metaballs-container ${className}`} />;
+  return <div ref={containerRef} className="w-full h-full relative" />;
 };
 
 export default MetaBalls;

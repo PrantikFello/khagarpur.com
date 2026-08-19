@@ -1,6 +1,6 @@
 "use client";
 
-import { useBusinesses } from "@/DataAccessLayer/businnessesDAL";
+import { useBusinesses } from "@/my_components/businesses/businnessesDAL";
 import ServiceCard from "./service_card";
 
 export default function ServiceCardIterator() {

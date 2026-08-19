@@ -155,27 +155,6 @@
   }
 }
 
-@layer utilities {
-  .flexing_row {
-    @apply w-full flex flex-row items-center justify-center;
-  }
-
-  .flexing_column {
-    @apply w-full flex flex-col items-center justify-center;
-  }
-
-  .flexing_iterations {
-    @apply w-full flex flex-wrap items-center justify-center;
-  }
-
-  .flexing_reverse {
-    @apply flex-row-reverse;
-  }
-
-  .flexing_adaptive {
-    @apply w-full flex flex-col sm:flex-row items-center justify-center;
-  }
-}
 
 @layer utilities {
   .box-pattern {
