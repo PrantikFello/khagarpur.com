@@ -43,3 +43,18 @@ next-env.d.ts
 node_modules
 .next
 out
+
+# Next.js & OpenNext build output
+.next/
+.open-next/
+out/
+
+# Cloudflare & Wrangler local states
+.wrangler/
+.dev.vars
+
+# Dependencies
+node_modules/
+
+# OS / Environment
+.env*.local

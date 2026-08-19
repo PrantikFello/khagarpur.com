@@ -8,9 +8,9 @@
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",
-    "build:worker": "opennextjs-cloudflare",
-    "preview": "opennextjs-cloudflare && wrangler dev",
-    "deploy": "opennextjs-cloudflare && wrangler deploy"
+    "build:worker": "opennextjs-cloudflare build",
+    "preview": "opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare deploy"
   },
   "dependencies": {
     "@radix-ui/react-popover": "^1.1.23",
