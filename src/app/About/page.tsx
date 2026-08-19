@@ -1,18 +1,31 @@
 "use client";
 
-import Counter from "@/my_components/counter/counter";
+import DevProfile from "@/my_components/profile_dev/profile";
+import MetaBalls from "../../components/MetaBalls"
+import { motion } from "motion/react";
 
 export default function About() {
-	return <Counter></Counter>;
-}
-export function HomePage() {
-	// const [count, setCount] = useRecoilState(counterState);
-	// const user = useRecoilValue(userState);
 	return (
-		<div>
-			{/*<h1>Home Page</h1>
-			<p>Count: {count}</p>
-			<button onClick={() => setCount(count + 1)}>Increment</button>*/}
-		</div>
+		<motion.div
+		initial={{ opacity: 0 }}
+			whileInView={{ opacity: 1 }}
+			viewport={{ once: false, amount: 0.3 }}
+			transition={{ duration: 1, ease: "easeInOut" }}>
+			<DevProfile />
+
+			<MetaBalls
+				color="#7e7e7e"
+				cursorBallColor="#7e7e7e"
+				cursorBallSize={1}
+				ballCount={16}
+				animationSize={20}
+				enableMouseInteraction={false}
+				enableTransparency={true}
+				hoverSmoothness={0.107}
+				clumpFactor={1}
+				speed={0.1}
+			/>
+		</motion.div>
 	);
 }
+

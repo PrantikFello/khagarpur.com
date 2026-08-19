@@ -1,0 +1,298 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   1. DYNAMIC COLOR SCHEME & THEME VARIABLES
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --dark: initial;
+    --light: ;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --dark: ;
+    --light: initial;
+  }
+}
+
+:root {
+  /* Accent Channels (Space-separated RGB triplets) */
+  --accent-primary: var(--dark, 0 102 120) var(--light, 0 179 210);
+  --accent-secondary: var(--dark, 255 243 1) var(--light, 212 187 13);
+
+  /* Layout & Spacing Constants */
+  --omni-bg: var(--dark, #262626) var(--light, #f5f5f5);
+  --omni-txt: var(--dark, #fff) var(--light, #000);
+  --adaptive-padding: clamp(5px, 0px + 3vw, 30px);
+}
+
+/* ==========================================================================
+   2. TAILWIND V4 THEME CONFIGURATION
+   ========================================================================== */
+@theme {
+  /* Dynamic Accent Channels */
+  --color-accent-primary: rgb(var(--accent-primary));
+  --color-accent-secondary: rgb(var(--accent-secondary));
+
+  /* Dynamic Primary Palette Steps (Resolves dark/light inline) */
+  --color-primary: var(--dark, #000) var(--light, #fff);
+  --color-primary-1: var(--dark, #0e0e0e) var(--light, #fbfbfb);
+  --color-primary-2: var(--dark, #0a0a0a) var(--light, #fff);
+  --color-primary-3: var(--dark, #141313) var(--light, #f8f8f8);
+  --color-primary-4: var(--dark, #1a1a1a) var(--light, #f8f8f8);
+  --color-primary-5: var(--dark, #262626) var(--light, #f5f5f5);
+  --color-primary-6: var(--dark, #232323) var(--light, #e5e5e5);
+  --color-primary-7: var(--dark, #3e3e3e) var(--light, #b0b0b0);
+
+  /* Dynamic Secondary Palette Steps */
+  --color-secondary: var(--dark, #fff) var(--light, #000);
+  --color-secondary-1: var(--dark, #fafafa) var(--light, #000);
+  --color-secondary-2: var(--dark, #e6e6e6) var(--light, #0d0d0d);
+  --color-secondary-3: var(--dark, #dcdcdc) var(--light, #2b2b2b);
+  --color-secondary-4: var(--dark, #d4d4d4) var(--light, #111);
+  --color-secondary-5: var(--dark, #a1a1a1) var(--light, #848484);
+  --color-secondary-6: var(--dark, #5d5d5d) var(--light, #d0d0d0);
+
+  /* Highlight colors */
+  --color-link-number: var(--dark, #b343ff) var(--light, #6600ab);
+  --color-link-text: var(--dark, #646eff) var(--light, #000981);
+}
+
+/* ==========================================================================
+   3. BASE RESETS & GLOBAL STYLES
+   ========================================================================== */
+@layer base {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--omni-bg);
+    color: var(--omni-txt);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    font-style: normal;
+    font-optical-sizing: auto;
+  }
+
+  a {
+    cursor: pointer;
+  }
+}
+
+/* Custom Scrollbars */
+@supports (scrollbar-width: auto) {
+  :not(:hover) {
+    scrollbar-color: transparent transparent;
+  }
+
+  :hover {
+    scrollbar-color: var(--dark, #e6e6e6) var(--light, #0d0d0d) transparent;
+  }
+}
+
+@supports selector(::-webkit-scrollbar) {
+  :root::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* ==========================================================================
+   4. LAYOUT COMPONENTS & UTILITY CLASSES
+   ========================================================================== */
+@layer components {
+  /* Grid layout with mobile collapse */
+  .app-grid-layout {
+    display: grid;
+    padding: var(--adaptive-padding);
+    grid-template-areas:
+      "topbar topbar topbar"
+      "ads content sidebar"
+      "footer footer footer";
+  }
+
+  @media (max-width: 768px) {
+    .app-grid-layout {
+      grid-template-areas:
+        "topbar"
+        "content"
+        "sidebar"
+        "ads"
+        "footer";
+    }
+  }
+
+  .area-topbar {
+    grid-area: topbar;
+  }
+
+  .area-ads {
+    grid-area: ads;
+  }
+
+  .area-content {
+    grid-area: content;
+  }
+
+  .area-sidebar {
+    grid-area: sidebar;
+  }
+
+  .area-footer {
+    grid-area: footer;
+  }
+
+  .body_part {
+    @apply flex justify-center items-center;
+    padding: var(--adaptive-padding);
+  }
+
+  .borders_none {
+    border: none;
+    border-radius: 20px;
+  }
+}
+
+@layer utilities {
+  .flexing_row {
+    @apply w-full flex flex-row items-center justify-center;
+  }
+
+  .flexing_column {
+    @apply w-full flex flex-col items-center justify-center;
+  }
+
+  .flexing_iterations {
+    @apply w-full flex flex-wrap items-center justify-center;
+  }
+
+  .flexing_reverse {
+    @apply flex-row-reverse;
+  }
+
+  .flexing_adaptive {
+    @apply w-full flex flex-col sm:flex-row items-center justify-center;
+  }
+}
+
+@layer utilities {
+  .box-pattern {
+    --pattern-opacity: 30%;
+    --length: 3px;
+
+    background-image:
+      repeating-linear-gradient(
+        135deg,
+        transparent,
+        transparent var(--length),
+        color-mix(
+            in srgb,
+            var(--color-primary-7) var(--pattern-opacity),
+            transparent
+          )
+          var(--length),
+        color-mix(
+            in srgb,
+            var(--color-primary-7) var(--pattern-opacity),
+            transparent
+          )
+          calc(var(--length) + 1px)
+      ),
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent var(--length),
+        color-mix(
+            in srgb,
+            var(--color-primary-7) var(--pattern-opacity),
+            transparent
+          )
+          var(--length),
+        color-mix(
+            in srgb,
+            var(--color-primary-7) var(--pattern-opacity),
+            transparent
+          )
+          calc(var(--length) + 1px)
+      );
+
+    background-attachment: fixed;
+  }
+
+  .links {
+    background-color: var(--color-primary-3);
+    color: var(--color-secondary-2);
+  }
+  .links:hover {
+    background-color: var(--color-secondary-3);
+    color: var(--color-primary-2);
+  }
+}
+
+@theme {
+  --animate-meteor-effect: meteor 5s linear infinite;
+}
+@keyframes meteor {
+  0% {
+    transform: rotate(215deg) translateX(0);
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: rotate(215deg) translateX(-500px);
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  .snap_container {
+    @apply snap-y snap-proximity overflow-y-auto h-[calc(100vh-85px)] md:h-[calc(100vh-75px)];
+  }
+  .snap_div {
+    @apply snap-start h-[calc(100vh-85px)] md:h-[calc(100vh-75px)];
+  }
+}
+@layer utilities {
+  .blur_color_div {
+    background: var(--color-primary);
+    color: var(--color-secondary);
+    text-box: cap alphabetic;
+    border: none;
+
+    position: relative;
+
+    &::before {
+      --vibrance: 50%;
+      content: " ";
+      position: absolute;
+      inset: 10px 10px -10px;
+      background: linear-gradient(
+        to right in oklch longer hue,
+        oklch(95% var(--vibrance) 0) 0 100%
+      );
+      filter: blur(20px);
+      border-radius: inherit;
+      z-index: -1;
+    }
+  }
+}
+@keyframes search-gradient-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-search-spin {
+    animation: none !important;
+  }
+}

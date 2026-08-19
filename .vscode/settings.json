@@ -1,0 +1,9 @@
+{
+  // 1. Tell VS Code to validate .css files as Tailwind CSS instead of standard CSS
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+
+  // 2. Ignore unknown at-rules in the standard CSS validator
+  "css.lint.unknownAtRules": "ignore"
+}

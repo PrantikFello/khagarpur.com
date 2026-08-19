@@ -1,0 +1,30 @@
+@keyframes autoRun {
+  from {
+    left: 100%;
+  }
+  to {
+    left: calc(var(--width) * -1);
+  }
+}
+
+@keyframes reversePlay {
+  from {
+    left: calc(var(--width) * -1);
+  }
+  to {
+    left: 100%;
+  }
+}
+
+.animate-autoRun {
+  animation: autoRun var(--duration, 10s) linear infinite;
+}
+
+.animate-reversePlay {
+  animation: reversePlay var(--duration, 10s) linear infinite;
+}
+
+.group\/slider:hover .animate-autoRun,
+.group\/slider:hover .animate-reversePlay {
+  animation-play-state: paused;
+}
