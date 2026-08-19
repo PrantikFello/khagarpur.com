@@ -6,9 +6,6 @@ import ClickSpark from "../components/ClickSpark";
 import GlobalSearch from "@/my_components/miniSearchComp/miniSearch";
 import { TSQueryProvider } from "@/DataAccessLayer/tanstack_DAL";
 
-import { defineCloudflareConfig } from "@opennextjs/cloudflare";
-
-export default defineCloudflareConfig({});
 
 export const metadata: Metadata = {
 	title: "Khisponi",
