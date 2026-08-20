@@ -1,52 +1,30 @@
 // app/Community/[id]/page.tsx
-import CommunityPage from "@/my_components/communityGroups/communityPage";
-import { CommunitiesJson } from "@/lib/links";
-import type { CommunityStruct } from "@/my_components/communityGroups/communityType";
-import { notFound } from "next/navigation";
+"use client";
 
-export const dynamicParams = false;
+import { use } from "react";
+import CommunityPage from "@/my_components/communityGroups/communityPage"; //[cite: 1]
+import { notFound } from "next/navigation"; //[cite: 1]
+import { useCommunityById } from "@/my_components/communityGroups/organozationsDAL";
 
-export async function generateStaticParams() {
-  try {
-    const res = await fetch(CommunitiesJson, {
-      // Prevents caching stale data during incremental static builds
-      cache: "no-store",
-    });
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch: ${res.status} ${res.statusText}`);
-    }
-
-    const communities: CommunityStruct[] = await res.json();
-
-    return communities.map((community) => ({
-      id: String(community.id),
-    }));
-  } catch (error) {
-    console.error("❌ Error inside generateStaticParams:", error);
-    // In static export, an empty array will trigger route generation errors
-    return [];
-  }
-}
-
-export default async function DynamicCommunityRoute({
+export default function DynamicCommunityRoute({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string }>; //[cite: 1]
 }) {
-  const { id } = await params;
+  const { id } = use(params);
+  const { data: targetCommunity, isLoading, isError } = useCommunityById(id);
 
-  try {
-    const res = await fetch(CommunitiesJson);
-    const communities: CommunityStruct[] = await res.json();
-    const targetCommunity = communities.find((c) => String(c.id) === id);
-
-    if (!targetCommunity) {
-      return notFound();
-    }
-
-    return <CommunityPage data={targetCommunity} />;
-  } catch {
-    return notFound();
+  if (isLoading) {
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
   }
+
+  if (isError || !targetCommunity) {
+    return notFound(); //[cite: 1]
+  }
+
+  return <CommunityPage data={targetCommunity} />; //[cite: 1]
 }

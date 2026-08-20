@@ -17,3 +17,10 @@ export function useOrganizations() {
         queryFn: fetchOrganizationsJson,
     });
 }
+export function useCommunityById(id: string) {
+  return useQuery({
+    queryKey: ['organisations'],
+    queryFn: fetchOrganizationsJson,
+    select: (communities) => communities.find((c) => String(c.id) === id),
+  });
+}

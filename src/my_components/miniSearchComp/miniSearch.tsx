@@ -55,7 +55,7 @@ export default function GlobalSearch() {
         ...(p.service_area || []),
       ].join(" "),
       image: p.image,
-      badge: "Service",
+      badge: "Business",
       href: `#${p.service_id}`,
     }));
 
