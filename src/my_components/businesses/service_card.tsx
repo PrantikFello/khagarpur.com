@@ -41,6 +41,13 @@ export default function ServiceCard({ provider }: ServiceCardProps) {
     return Array.from(new Set(provider.phone.filter(Boolean)));
   }, [provider.phone]);
 
+  const imageLink: string = (() => {
+    if (provider.image.trim().length !== 0) {
+      return `${Link_Prefix}${provider.image}`;
+    }
+    return '/default_shop.jpg';
+  })();
+  
   return (
     <article
       ref={cardRef}
@@ -50,7 +57,7 @@ export default function ServiceCard({ provider }: ServiceCardProps) {
       {/* Image Container */}
       <div className="relative aspect-video w-full overflow-hidden bg-muted flex items-center justify-center">
         <img
-          src={`${Link_Prefix}${provider.image}`}
+          src={imageLink}
           alt={provider.name || 'Service provider'}
           // fill
           sizes="(max-width: 768px) 100vw, 450px"
@@ -83,9 +90,8 @@ export default function ServiceCard({ provider }: ServiceCardProps) {
         {/* Smooth Expandable Metadata Drawer using CSS Grid */}
         <div
           id={`details-${provider.service_id}`}
-          className={`grid transition-[grid-template-rows] duration-300 ease-out md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] ${
-            expanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
-          }`}
+          className={`grid transition-[grid-template-rows] duration-300 ease-out md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] ${expanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+            }`}
         >
           <div className="overflow-hidden">
             <div className="flex flex-col gap-2.5 pt-1 text-xs md:text-sm">

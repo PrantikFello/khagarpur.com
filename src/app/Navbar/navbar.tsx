@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Navbar() {
 	return (
-		<header data-pagefind-ignore className="sticky top-0 z-100 flex w-full items-center justify-between bg-gradient-to-b from-primary-6 to-primary p-[--adaptive-padding] flex-col sm:flex-row">
+		<header  className="sticky top-0 z-100 flex w-full items-center justify-between bg-linear-to-b from-primary-6 to-primary p-[--adaptive-padding] flex-col sm:flex-row">
 			{/* Brand / Logo */}
 			<div className="flex items-center justify-center flex-row">
 				<Image
