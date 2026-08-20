@@ -56,7 +56,7 @@ export default function GlobalSearch() {
       ].join(" "),
       image: p.image,
       badge: "Business",
-      href: `#${p.service_id}`,
+      href: `/Businesses/#${p.service_id}`,
     }));
 
     const communityItems: UnifiedSearchItem[] = (communities as CommunityStruct[]).map((c) => ({
@@ -100,7 +100,7 @@ export default function GlobalSearch() {
       fields: ["title", "description", "searchableContent"],
       storeFields: ["targetId", "type", "title", "description", "image", "badge", "href"],
       searchOptions: {
-        boost: { title: 3, description: 1.5, searchableContent: 1 },
+        boost: { title: 3, description: 1.5, searchableContent: 2 },
         fuzzy: 0.2,
         prefix: true,
       },
@@ -164,29 +164,35 @@ export default function GlobalSearch() {
   const handleSelect = (item: UnifiedSearchItem | SearchResult) => {
     setIsOpen(false);
 
+    // 1. Business / Service Navigation
     if (item.type === "service") {
-      const el = document.getElementById(item.targetId);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      } else {
-        router.push(`/${item.href}`);
+      if (pathname === "/Businesses") {
+        const el = document.getElementById(item.targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+          return;
+        }
       }
+      // Pass item.href directly without leading template slash
+      router.push(item.href);
       return;
     }
 
+    // 2. Staff Navigation
     if (item.type === "staff") {
       const [routePath] = item.href.split("#");
       if (pathname === routePath) {
         const el = document.getElementById(item.targetId);
         if (el) {
           el.scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
         }
-      } else {
-        router.push(item.href);
       }
+      router.push(item.href);
       return;
     }
 
+    // 3. Community Navigation
     router.push(item.href);
   };
 
@@ -200,19 +206,17 @@ export default function GlobalSearch() {
       `}
     >
       <div
-        className={`relative flex items-center bg-primary text-secondary border border-primary-6 shadow-xl transition-all duration-300 ${
-          isOpen
+        className={`relative flex items-center bg-primary text-secondary border border-primary-6 shadow-xl transition-all duration-300 ${isOpen
             ? "rounded-2xl p-2.5"
             : "rounded-full p-0 h-12 w-12 hover:scale-105 active:scale-95 cursor-pointer justify-center"
-        }`}
+          }`}
       >
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
           aria-label={isOpen ? "Close search" : "Open search"}
-          className={`flex items-center justify-center rounded-full text-secondary-5 hover:text-secondary transition-colors ${
-            isOpen ? "p-2 hover:bg-primary-4" : "w-full h-full"
-          }`}
+          className={`flex items-center justify-center rounded-full text-secondary-5 hover:text-secondary transition-colors ${isOpen ? "p-2 hover:bg-primary-4" : "w-full h-full"
+            }`}
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
             {isOpen ? (
@@ -224,9 +228,8 @@ export default function GlobalSearch() {
         </button>
 
         <div
-          className={`flex-1 overflow-hidden transition-all duration-300 ${
-            isOpen ? "opacity-100 ml-2" : "opacity-0 w-0 pointer-events-none"
-          }`}
+          className={`flex-1 overflow-hidden transition-all duration-300 ${isOpen ? "opacity-100 ml-2" : "opacity-0 w-0 pointer-events-none"
+            }`}
         >
           <input
             ref={inputRef}
@@ -264,9 +267,8 @@ export default function GlobalSearch() {
                     <img
                       src={`${item.type === "service" ? "" : Link_Prefix}${item.image}`}
                       alt={item.title}
-                      className={`h-10 w-10 shrink-0 object-cover bg-primary-5 ${
-                        item.type === "staff" ? "rounded-full" : "rounded-lg"
-                      }`}
+                      className={`h-10 w-10 shrink-0 object-cover bg-primary-5 ${item.type === "staff" ? "rounded-full" : "rounded-lg"
+                        }`}
                     />
                   ) : (
                     <div className="h-10 w-10 shrink-0 rounded-lg bg-primary-5 flex items-center justify-center text-[10px] text-secondary-5">
@@ -281,13 +283,12 @@ export default function GlobalSearch() {
                           {item.title}
                         </h4>
                         <span
-                          className={`rounded px-1.5 py-0.5 text-[10px] font-medium shrink-0 ${
-                            item.type === "service"
+                          className={`rounded px-1.5 py-0.5 text-[10px] font-medium shrink-0 ${item.type === "service"
                               ? "bg-accent-secondary/20 text-accent-secondary"
                               : item.type === "staff"
-                              ? "bg-accent-primary/20 text-accent-primary"
-                              : "bg-link-text/20 text-link-text"
-                          }`}
+                                ? "bg-accent-primary/20 text-accent-primary"
+                                : "bg-link-text/20 text-link-text"
+                            }`}
                         >
                           {item.badge}
                         </span>

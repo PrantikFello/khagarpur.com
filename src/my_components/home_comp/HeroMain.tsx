@@ -43,7 +43,7 @@ export default function Hero() {
 
 export function HeroTextBox() {
   const pathname = usePathname();
-  const colorLazer = "#88ff00";
+  const colorLazer = "#4C00FF";
 
   const heroStyle: HeroStyle = {
     "--glow": colorLazer,
@@ -58,10 +58,10 @@ export function HeroTextBox() {
         repeat: Infinity,
         ease: "easeInOut",
       }}
-      className="snap_div relative z-60 -translate-y-1/6 flex w-full flex-col items-center overflow-x-visible"
+      className="snap_div relative z-60 -translate-y-1/6 flex w-full flex-col items-center overflow-x-visible bg-transparent"
     >
       {/* Laser */}
-      <div className="z-500 h-[40vh] min-w-75 w-[60vw]">
+      <div className="z-500 h-[40vh] min-w-75 w-[60vw] bg-transparent">
         <LaserFlow
           key={pathname}
           horizontalBeamOffset={0.1}
