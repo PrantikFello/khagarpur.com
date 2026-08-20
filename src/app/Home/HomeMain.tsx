@@ -1,6 +1,5 @@
 "use client";
 import dynamic from "next/dynamic";
-import Footer from "@/app/Navbar/footer";
 
 // Disable SSR for components using React Query, Canvas, WebGL, or DOM APIs
 const Hero = dynamic(() => import("@/my_components/home_comp/HeroMain"), {
@@ -19,7 +18,6 @@ export default function HomeMain() {
     <div className="snap_container w-screen overflow-y-visible">
       <Hero />
       <HomeCardsIterator />
-      <Footer />
     </div>
   );
 }

@@ -82,7 +82,7 @@ export default function ServiceCard({ provider }: ServiceCardProps) {
           onClick={() => setExpanded((curr) => !curr)}
           aria-expanded={expanded}
           aria-controls={`details-${provider.service_id}`}
-          className="w-full rounded-md bg-secondary/30 px-3 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-secondary/30 active:scale-[0.98] md:hidden"
+          className="w-full rounded-md bg-secondary/10 px-3 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-secondary/15 active:scale-[0.98] md:hidden"
         >
           {expanded ? 'Show less ↑' : 'Show details ↓'}
         </button>
