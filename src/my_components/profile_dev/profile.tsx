@@ -8,12 +8,12 @@ export default function DevProfile() {
       <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-6 p-6 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 shadow-sm transition-transform duration-300 hover:scale-[1.01]">
         <div className="flex flex-col gap-4 flex-1 text-center sm:text-left">
           <p className="text-sm sm:text-base text-neutral-700 dark:text-neutral-300 leading-relaxed">
-            Hello, I am the developer and admin of this website.
+            {/* Hello, I am the developer and admin of this website. */}
             <br />
-            My core stack includes:
+            {/* My core stack includes: */}
             <br />
             <span className="font-semibold text-black dark:text-white">
-              Spring Boot, Jetpack Compose, Next.js
+              {/* Spring Boot, Jetpack Compose, Next.js */}
             </span>
           </p>
 
@@ -35,16 +35,12 @@ export default function DevProfile() {
 }
 const devSocialMedia :SocialPlatform[] = [
             {
-              platform: "telegram",
-              url: "https://linkedin.com/in/ananyadas"
-            },
-            {
-              platform: "linkedin",
-              url: "https://linkedin.com/in/ananyadas"
-            },
-            {
               platform: "youtube",
-              url: "https://linkedin.com/in/ananyadas"
+              url: "https://github.com/PrantikFello/fifty-feed/releases/latest/download/fifty-feed.apk"
+            },
+            {
+              platform: "github",
+              url: "https://github.com/PrantikFello"
             }
           ];
 export function DevSocialMedia(){
