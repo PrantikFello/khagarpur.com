@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌾 Village Hub — Community & Local Business Directory
 
-## Getting Started
+A blazing-fast, edge-rendered web portal and directory designed to empower local communities. It bridges the gap between residents and local commerce by offering dedicated indices for businesses, artisan trades, and community groups, paired with zero-latency local search.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ⚡ Tech Stack & Architecture
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* **Runtime & Package Manager:** [Bun](https://bun.sh/)
+* **Framework:** [Next.js](https://nextjs.org/) (App Router, React Server Components)
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+* **Search Engine:** [MiniSearch](https://github.com/lucaong/minisearch) (In-memory, client-side full-text index)
+* **Edge Deployment:** [Cloudflare Pages](https://pages.cloudflare.com/) / `@opennextjs/cloudflare`
+* **Icons:** [Lucide React](https://lucide.dev/)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📌 Core Features
 
-## Learn More
+* **Dedicated Business Index:** Searchable and categorized directory of local storefronts, services, home-based businesses, and agricultural suppliers.
+* **Community Hub:** Public listings for local associations, self-help groups, emergency services, and community initiatives.
+* **Instant Full-Text Search:** Sub-millisecond, typo-tolerant search powered by **MiniSearch** with prefix matching and field boosting across all entities.
+* **Edge-First Performance:** Optimized bundle sizes and edge-cached pages for instant load times, even on constrained 2G/3G mobile networks.
+* **Responsive & Mobile-First:** Designed with a clean, touch-friendly UI using Tailwind CSS.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔍 Search Implementation Details
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The application uses **MiniSearch** to eliminate backend query round-trips:
 
-## Deploy on Vercel
+* **Indexed Fields:** `title`, `name`, `category`, `description`, `keywords`, `address`
+* **Stored Fields:** `id`, `name`, `category`, `slug`, `phone`, `type`
+* **Search Configuration:**
+  * Prefix matching enabled for instant typing suggestions (`prefix: true`)
+  * Fuzzy matching for typo tolerance (`fuzzy: 0.2`)
+  * Field boosting prioritizing `name` and `category` over general descriptions
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
