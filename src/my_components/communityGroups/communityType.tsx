@@ -15,14 +15,14 @@ export interface QuickDials{
 }
 
 export interface ContactInfo {
-  emailId: string;
+  emailId?: string | null;
   phoneNos: string[];
-  socialMedia: SocialPlatform[];
+  socialMedia?: SocialPlatform[] | null;
 }
 
 export interface StaffMember {
   staffName: string;
-  designation: string;
+  designation?: string | null;
   photoUrl: string;
   contactInfo: ContactInfo;
 }
@@ -30,10 +30,10 @@ export interface StaffMember {
 export interface CommunityStruct {
   svgLink:string;
   id: string;
-  message: string;
+  message?: string | null;
   groupName: string;
   profilePhoto: string,
   imageUrls: string[];
   groupContact: CommunityContact;
-  staffInfo: StaffMember[];
+  staffInfo?: StaffMember[] | null;
 }

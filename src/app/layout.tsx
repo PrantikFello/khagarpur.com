@@ -3,7 +3,7 @@ import "@/assets/preset_styles.css";
 
 import Navbar from "@/app/Navbar/navbar";
 import ClickSpark from "../components/ClickSpark";
-import GlobalSearch from "@/my_components/miniSearchComp/miniSearch";
+import GlobalSearch from "@/my_components/miniSearchComp/GlobalSearch";
 import { TSQueryProvider } from "@/DataAccessLayer/tanstack_DAL";
 import ClientOnly from "@/lib/clientOnly";
 

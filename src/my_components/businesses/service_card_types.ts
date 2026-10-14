@@ -7,8 +7,8 @@ export interface ServiceCardData {
 	relevance_tags: string[];
 	specifics: string[];
 	image: string;
-	website: string;
+	website?: string | null;
 	service_area: string[];
 	phone: string[];
-	socialMedia: SocialPlatform[];
+	socialMedia?: SocialPlatform[] | null;
 }

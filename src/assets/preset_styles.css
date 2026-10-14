@@ -261,17 +261,33 @@
     }
   }
 }
-@keyframes search-gradient-spin {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
+
+
+
+
+/* 4-byte GPU float angle uniform — enables smooth conic-gradient interpolation */
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes border-spin {
   to {
-    transform: translate(-50%, -50%) rotate(360deg);
+    --border-angle: 360deg;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .animate-search-spin {
-    animation: none !important;
-  }
+@utility bg-animated-border {
+  background: conic-gradient(
+    from var(--border-angle),
+    var(--color-accent-primary) 0%,
+    var(--color-primary) 12.5%,
+    var(--color-secondary) 25%,
+    var(--color-accent-secondary) 50%,
+    var(--color-primary) 62.5%,
+    var(--color-secondary) 75%,
+    var(--color-accent-primary) 100%
+  );
+  animation: border-spin 3.5s linear infinite;
 }

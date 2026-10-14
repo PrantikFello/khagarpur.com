@@ -14,7 +14,7 @@ export default function About() {
 
 			className="min-h-screen"
 		>
-			<MetaBalls
+			{/* <MetaBalls
 				color="#7e7e7e"
 				cursorBallColor="#7e7e7e"
 				cursorBallSize={1}
@@ -25,7 +25,7 @@ export default function About() {
 				hoverSmoothness={0.107}
 				clumpFactor={1}
 				speed={0.1}
-			/>
+			/> */}
 			
 			<DevProfile />
 		</motion.div>
