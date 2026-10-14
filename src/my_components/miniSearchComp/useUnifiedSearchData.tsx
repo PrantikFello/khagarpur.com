@@ -5,9 +5,13 @@ import { useBusinesses } from "@/my_components/businesses/businnessesDAL";
 import { useOrganizations } from "@/my_components/communityGroups/organozationsDAL";
 import type { UnifiedSearchItem } from "./search_types";
 
+// 1 shared singleton in V8 heap (~32 bytes total) prevents useMemo invalidation on undefined data
+const EMPTY_BUSINESSES: ServiceCardData[] = [];
+const EMPTY_COMMUNITIES: CommunityStruct[] = [];
+
 export function useUnifiedSearchData() {
-  const { data: businesses = [], isLoading: isBusinessesLoading } = useBusinesses();
-  const { data: communities = [], isLoading: isCommunitiesLoading } = useOrganizations();
+  const { data: businesses = EMPTY_BUSINESSES, isLoading: isBusinessesLoading } = useBusinesses();
+  const { data: communities = EMPTY_COMMUNITIES, isLoading: isCommunitiesLoading } = useOrganizations();
 
   const isDataLoading = isBusinessesLoading || isCommunitiesLoading;
 
@@ -19,15 +23,17 @@ export function useUnifiedSearchData() {
       targetId: p.service_id,
       type: "service",
       title: p.name,
-      description: p.description,
+      description: p.description ?? "",
       searchableContent: [
         p.name,
         p.description,
-        ...(p.relevance_tags || []),
-        ...(p.specifics || []),
-        ...(p.service_area || []),
-      ].join(" "),
-      image: p.image,
+        ...(p.relevance_tags ?? []),
+        ...(p.specifics ?? []),
+        ...(p.service_area ?? []),
+      ]
+        .filter(Boolean)
+        .join(" "),
+      image: p.image ?? "",
       badge: "Business",
       href: `/Businesses/#${p.service_id}`,
     }));
@@ -37,15 +43,17 @@ export function useUnifiedSearchData() {
       targetId: c.id,
       type: "community",
       title: c.groupName,
-      description: c.message,
-      searchableContent: [c.groupName, c.message, c.groupContact?.address || ""].join(" "),
-      image: c.profilePhoto,
+      description: c.message ?? "", // Fixes TS2322: collapses string | null | undefined -> string
+      searchableContent: [c.groupName, c.message, c.groupContact?.address]
+        .filter(Boolean)
+        .join(" "),
+      image: c.profilePhoto ?? "",
       badge: "Community",
       href: `/Community/${c.id}`,
     }));
 
     const staffItems: UnifiedSearchItem[] = (communities as CommunityStruct[]).flatMap((c) =>
-      (c.staffInfo || []).map((s, index) => {
+      (c.staffInfo ?? []).map((s, index) => {
         const slug = s.staffName.toLowerCase().replace(/\s+/g, "-");
         const staffAnchorId = `staff-${slug}`;
 
@@ -54,9 +62,16 @@ export function useUnifiedSearchData() {
           targetId: staffAnchorId,
           type: "staff",
           title: s.staffName,
-          description: `${s.designation}\n${c.groupName}`,
-          searchableContent: `${s.staffName} ${s.designation} ${c.groupName} ${c.groupContact?.address || ""}`,
-          image: s.photoUrl,
+          description: `${s.designation ?? ""}\n${c.groupName}`.trim(),
+          searchableContent: [
+            s.staffName,
+            s.designation,
+            c.groupName,
+            c.groupContact?.address,
+          ]
+            .filter(Boolean)
+            .join(" "),
+          image: s.photoUrl ?? "",
           badge: "Staff",
           href: `/Community/${c.id}#${staffAnchorId}`,
         };
