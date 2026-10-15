@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "khagarpur-com",
+  "name": "www",
   "main": ".open-next/worker.js",
   "compatibility_date" : "2026-08-01",
   "compatibility_flags": ["nodejs_compat"],
