@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
     ],
   },
   // Controls dev server HMR/DevTools access across local network
-  // allowedDevOrigins: ["100.127.178.13", "local-origin.dev", "*.local-origin.dev"],
+  allowedDevOrigins: ["100.127.178.13", "local-origin.dev", "*.local-origin.dev"],
 };
 
 export default nextConfig;

@@ -59,3 +59,4 @@ node_modules/
 # OS / Environment
 .env*.local
 
+next.config.ts

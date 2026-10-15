@@ -113,7 +113,7 @@ export default function GlobalSearch() {
   return (
     <div
       ref={containerRef}
-      className={`fixed m-5 z-200 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+      className={`fixed z-200 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
         top-4 right-4
         lg:top-6 lg:right-auto lg:left-1/2 lg:-translate-x-1/2
         ${isOpen ? "w-[calc(100vw-2rem)] sm:w-[500px] lg:w-[600px]" : "w-12 h-12"}
@@ -125,7 +125,8 @@ export default function GlobalSearch() {
         <div
           aria-hidden="true"
           className={`bg-animated-border pointer-events-none absolute -inset-2.5 -z-10 blur-xl opacity-80 transition-all duration-300 ${
-            isOpen ? "rounded-[calc(var(--radius-2xl)+10px)]" : "rounded-full"
+            // isOpen ? "rounded-[calc(var(--radius-2xl)+10px)]" : 
+            "rounded-full"
           }`}
         />
 
@@ -133,16 +134,17 @@ export default function GlobalSearch() {
         <div
           aria-hidden="true"
           className={`bg-animated-border pointer-events-none absolute -inset-[3px] -z-10 transition-all duration-300 ${
-            isOpen ? "rounded-[calc(var(--radius-2xl)+3px)]" : "rounded-full"
+            // isOpen ? "rounded-[calc(var(--radius-2xl)+3px)]" : 
+            "rounded-full"
           }`}
         />
 
         {/* Layer 3: Solid inner surface */}
         <div
-          className={`relative flex items-center bg-primary text-secondary shadow-xl transition-all duration-300 ${
+          className={`relative rounded-full flex items-center bg-primary text-secondary shadow-xl transition-all duration-300 ${
             isOpen
-              ? "rounded-2xl p-2.5"
-              : "rounded-full p-0 h-12 w-12 hover:scale-105 active:scale-95 cursor-pointer justify-center"
+              ? " p-2.5"
+              : " p-0 h-12 w-12 hover:scale-105 active:scale-95 cursor-pointer justify-center"
           }`}
         >
           <button
