@@ -5,4 +5,5 @@ export interface Contributor {
     role?: String | null,
     socialMedia?: SocialPlatform[] | null,
     phn?: String | null,
+    picture: string;
 }

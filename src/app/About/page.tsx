@@ -1,8 +1,9 @@
 "use client";
 
 import DevProfile from "@/my_components/profile_dev/profile";
-import MetaBalls from "@/components/MetaBalls"
+
 import { motion } from "motion/react";
+import ContributorsIterator from "@/my_components/Contributors/ContributorIterator";
 
 export default function About() {
 	return (
@@ -12,22 +13,14 @@ export default function About() {
 			viewport={{ once: false, amount: 0.3 }}
 			transition={{ duration: 1, ease: "easeInOut" }}
 
-			className="min-h-screen"
+			className="min-h-screen px-20 flex items-center flex-col"
 		>
-			{/* <MetaBalls
-				color="#7e7e7e"
-				cursorBallColor="#7e7e7e"
-				cursorBallSize={1}
-				ballCount={16}
-				animationSize={20}
-				enableMouseInteraction={false}
-				enableTransparency={true}
-				hoverSmoothness={0.107}
-				clumpFactor={1}
-				speed={0.1}
-			/> */}
 			
-			<DevProfile />
+			
+		<h3 className="m-5 font-bold text-xl">BTS:</h3>
+
+
+			<ContributorsIterator></ContributorsIterator>
 		</motion.div>
 	);
 }

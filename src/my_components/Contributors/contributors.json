@@ -1,24 +1,37 @@
 [
-    {
-        "name": "Prantik",
-        "role": "Codebase",
-        "socialMedia": [
-            {
-                "platform": "youtube",
-                "url": "xtndr"
-            },
-            {
-                "platform": "github",
-                "url": "https://github.com/PrantikFello"
-            },
-            {
-                "platform": "instagram",
-                "url":""
-            }
-        ],
-        "phn": "+918638901115"
-    },
-    {
-        "name":"Anonymous"
-    }
+  {
+    "name": "Prantik",
+    "role": "Codebase",
+    "picture": "https://github.com/PrantikFello.png?size=200",
+    "socialMedia": [
+      {
+        "platform": "youtube",
+        "url": "xtndr"
+      },
+      {
+        "platform": "github",
+        "url": "https://github.com/PrantikFello"
+      },
+      {
+        "platform": "instagram",
+        "url": ""
+      }
+    ],
+    "phn": "+918638901115"
+  },
+  {
+    "name": "Anonymous",
+    "role": "Existence",
+    "picture": "",
+    "socialMedia": [
+      {
+        "platform": "linkedin",
+        "url": ""
+      },
+      {
+        "platform": "facebook",
+        "url": ""
+      }
+    ]
+  }
 ]
