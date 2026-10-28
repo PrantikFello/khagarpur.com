@@ -52,16 +52,15 @@ export const HomeCard: React.FC<HomeCardProps> = ({
   const buttonClasses =
     "group/cta inline-flex w-fit select-none items-center justify-center gap-3 rounded-none border-2 border-secondary bg-accent-primary px-7 py-3 font-sans text-[16px] font-semibold italic tracking-normal text-primary shadow-[6px_6px_0_var(--color-secondary)] transition-all duration-[120ms] [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none hover:bg-accent-secondary active:translate-x-[6px] active:translate-y-[6px] active:shadow-[0_0_var(--color-secondary)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-secondary";
 
-// Inside HomeCards.tsx — replace the return of HomeCard (lines 56-103) with:
   return (
     <div className="snap_div flex items-center justify-center py-8">
       <article
         data-testid="home-card-article"
-        className={`relative flex w-full flex-col-reverse items-center justify-between gap-8 rounded-none border-2 border-secondary bg-transparent backdrop-blur-sm p-6 text-secondary shadow-[8px_8px_0_var(--color-secondary-4)] transition-colors duration-200 sm:p-10 ${
+        className={`relative flex w-full flex-col-reverse items-center justify-between gap-8 rounded-none border-2 border-secondary bg-transparent p-6 text-secondary shadow-[8px_8px_0_var(--color-secondary-4)] backdrop-blur-sm transition-colors duration-200 sm:p-10 ${
           reverse ? "sm:flex-row-reverse" : "sm:flex-row"
         }`}
       >
-        {/* Media Frame with transparent background */}
+        {/* Media Frame */}
         <div className="relative w-full shrink-0 sm:w-1/2">
           <div className="relative h-64 w-full overflow-hidden rounded-none border-2 border-secondary bg-transparent shadow-[6px_6px_0_var(--color-secondary-4)] sm:h-80">
             <Image
@@ -103,7 +102,7 @@ export const HomeCard: React.FC<HomeCardProps> = ({
         </div>
       </article>
     </div>
-  ); 
+  );
 };
 
 export const HomeCardSkeleton: React.FC = () => {
@@ -111,7 +110,7 @@ export const HomeCardSkeleton: React.FC = () => {
     <div className="snap_div flex items-center justify-center py-8">
       <div
         data-testid="home-card-skeleton"
-        className="relative flex w-full animate-pulse flex-col-reverse gap-8 border-2 border-secondary bg-transparent backdrop-blur-sm p-6 shadow-[8px_8px_0_var(--color-secondary-4)] sm:flex-row sm:p-10"
+        className="relative flex w-full animate-pulse flex-col-reverse gap-8 border-2 border-secondary bg-transparent p-6 shadow-[8px_8px_0_var(--color-secondary-4)] backdrop-blur-sm sm:flex-row sm:p-10"
       >
         <div className="h-64 w-full border-2 border-secondary bg-secondary/10 shadow-[6px_6px_0_var(--color-secondary-4)] sm:h-80 sm:w-1/2" />
         <div className="flex w-full flex-col justify-center gap-4 sm:w-[45%]">
@@ -142,22 +141,24 @@ export default function HomeCardSection() {
 
   if (isError) {
     return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col">
-        {cards.map((card, index) => (
-          <HomeCard
-            key={`${card.title}-${card.link}-${index}`}
-            title={card.title}
-            description={card.description}
-            callToAction={card.call_to_action}
-            link={card.link}
-            imageSrc={`${Link_Prefix}${card.image}`}
-            reverse={index % 2 !== 0}
-          />
-        ))}
-      </div>
-    </section>
-  );
+      <section className="snap_div mx-auto flex max-w-7xl items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center justify-center gap-4 border-2 border-secondary bg-transparent p-8 text-center shadow-[6px_6px_0_var(--color-secondary-4)] backdrop-blur-sm">
+          <h3 className="text-xl font-black uppercase text-secondary">
+            Failed to Load Cards
+          </h3>
+          <p className="max-w-md text-sm font-medium text-secondary-5">
+            Unable to establish communication with the upstream API endpoint.
+          </p>
+          <button
+            type="button"
+            onClick={() => void refetch()}
+            className="border-2 border-secondary bg-accent-primary px-5 py-2 font-mono text-sm font-bold uppercase text-primary shadow-[4px_4px_0_var(--color-secondary-4)] hover:bg-accent-secondary active:translate-x-1 active:translate-y-1 active:shadow-none"
+          >
+            Retry Request
+          </button>
+        </div>
+      </section>
+    );
   }
 
   const cards: readonly HomeCardItem[] = data?.home_cards ?? [];
@@ -167,7 +168,10 @@ export default function HomeCardSection() {
   }
 
   return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section
+      data-testid="home-cards-section"
+      className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+    >
       <div className="flex flex-col">
         {cards.map((card, index) => (
           <HomeCard
