@@ -15,7 +15,7 @@ const HomeCardsIterator = dynamic(
 
 export default function HomeMain() {
   return (
-    <div className="snap_container w-screen overflow-y-visible">
+    <div className="w-full">
       <Hero />
       <HomeCardsIterator />
     </div>

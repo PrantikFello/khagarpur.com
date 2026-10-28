@@ -1,104 +1,98 @@
 "use client";
 
 import { motion } from "motion/react";
-import { usePathname } from "next/navigation";
-import { type CSSProperties } from "react";
 import InfiniteImageSlider from "@/my_components/InfiniteImageCarouselAuto/ImageSliderFunction";
-import dynamic from "next/dynamic";
 import { useImageSlider } from "./queries";
-
-const LaserFlow = dynamic(() => import("@/components/LaserFlow"), {
-  ssr: false,
-});
-
-type HeroStyle = CSSProperties & {
-  "--glow": string;
-  "--border-glow": string;
-};
 
 export default function Hero() {
   const { data, isLoading } = useImageSlider();
   const imageUrls = data?.imageUrls ?? [];
 
   return (
-    <div className="snap_div relative flex w-screen flex-col items-center justify-center overflow-x-visible">
-      {/* Main content */}
+    <section
+      data-testid="hero-section"
+      className="snap_div box-pattern relative flex h-[100svh] w-full flex-col items-center justify-evenly overflow-hidden px-4 py-6 sm:py-10"
+    >
+      {/* Ambient radial glow anchored behind the focal stack */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-[50svh] w-[75vw] max-w-3xl -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-primary/15 blur-[90px]"
+      />
+
+      {/* Upper Focal Stack: Status Pill + Brutalist Hero Plaque */}
       <HeroTextBox />
 
-      {/* Image slider */}
-      <div className="-translate-y-50 w-screen md:-translate-y-1/2">
+      {/* Elevated Image Carousel Slot */}
+      <div
+        data-testid="hero-slider-slot"
+        className="relative z-30 flex w-full shrink-0 flex-col items-center justify-center pb-4 sm:pb-6"
+      >
         {!isLoading && imageUrls.length > 0 && (
           <InfiniteImageSlider
             images={imageUrls}
-            width="clamp(100px,25vw,150px)"
-            height="clamp(100px,25vw,150px)"
+            width="clamp(95px, 18vh, 145px)"
+            height="clamp(95px, 18vh, 145px)"
             reverse={false}
             duration={40}
           />
         )}
       </div>
-    </div>
+    </section>
   );
 }
 
 export function HeroTextBox() {
-  const pathname = usePathname();
-  const colorLazer = "#4C00FF";
-
-  const heroStyle: HeroStyle = {
-    "--glow": colorLazer,
-    "--border-glow": colorLazer,
-  };
-
   return (
     <motion.div
-      animate={{ y: [0, 20, 0] }}
+      animate={{ y: [0, 8, 0] }}
       transition={{
         duration: 5,
         repeat: Infinity,
         ease: "easeInOut",
       }}
-      className="snap_div relative z-60 -translate-y-1/6 flex w-full flex-col items-center overflow-x-visible bg-transparent"
+      className="relative z-20 flex w-full shrink-0 flex-col items-center justify-center"
     >
-      {/* Laser */}
-      <div className="z-500 h-[40vh] min-w-75 w-[60vw] bg-transparent">
-        <LaserFlow
-          key={pathname}
-          horizontalBeamOffset={0.1}
-          verticalBeamOffset={-0.5}
-          horizontalSizing={0.4}
-          verticalSizing={5}
-          wispDensity={1.4}
-          wispSpeed={10}
-          wispIntensity={8}
-          flowSpeed={0.2}
-          flowStrength={0.5}
-          fogIntensity={0.35}
-          fogScale={0.3}
-          fogFallSpeed={1.2}
-          decay={3}
-          falloffStart={1.5}
-          color={colorLazer}
-        />
+      {/* Compact Status Badge */}
+      <div className="mb-4 inline-flex items-center gap-2 border-2 border-secondary bg-primary-2 px-3.5 py-1 shadow-[4px_4px_0_var(--color-secondary-4)] sm:mb-5">
+        <span className="h-2 w-2 animate-pulse rounded-full bg-accent-secondary" />
+        <span className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-secondary-2 sm:text-xs">
+          Community &amp; Directory Portal
+        </span>
       </div>
 
-      {/* Hero box */}
-      <div
-        style={heroStyle}
-        className="relative flex h-min min-w-[50vw] items-center justify-center overflow-visible rounded-lg border-2 border-(--border-glow) bg-primary-3 p-5 shadow-[0_0_30px_var(--glow),0_0_10px_var(--glow)]"
-      >
-        <div className="relative z-20 flex flex-col items-center text-center">
-          <p className="mb-3 text-sm font-medium uppercase tracking-[0.35em] text-accent-secondary">
+      {/* Animated Conic Border Wrapper */}
+      <div className="bg-animated-border relative w-full max-w-2xl p-[2px] shadow-[8px_8px_0_var(--color-secondary-4)] sm:w-auto sm:min-w-[48vw]">
+        {/* Resized Inner Plaque */}
+        <div className="relative flex flex-col items-center justify-center bg-primary-3 px-6 py-6 text-center sm:px-12 sm:py-9">
+          {/* Corner Hardware Ticks */}
+          <span
+            aria-hidden="true"
+            className="absolute top-2 left-2 h-2 w-2 border-t-2 border-l-2 border-accent-secondary"
+          />
+          <span
+            aria-hidden="true"
+            className="absolute top-2 right-2 h-2 w-2 border-t-2 border-r-2 border-accent-secondary"
+          />
+          <span
+            aria-hidden="true"
+            className="absolute bottom-2 left-2 h-2 w-2 border-b-2 border-l-2 border-accent-secondary"
+          />
+          <span
+            aria-hidden="true"
+            className="absolute right-2 bottom-2 h-2 w-2 border-r-2 border-b-2 border-accent-secondary"
+          />
+
+          <p className="mb-2 font-mono text-xs font-semibold uppercase tracking-[0.35em] text-accent-secondary">
             Welcome to
           </p>
 
-          <h1 className="text-[clamp(2.5rem,7vw,7rem)] font-bold uppercase leading-none tracking-tight text-secondary">
+          <h1 className="text-[clamp(2.25rem,6.5vw,5.5rem)] font-black italic uppercase leading-none tracking-tight text-secondary">
             Khagarpur
           </h1>
+
+          <div className="mt-4 h-1 w-20 bg-accent-primary" />
         </div>
       </div>
     </motion.div>
   );
 }
-
-

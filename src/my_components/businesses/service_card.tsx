@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState, useMemo } from 'react';
-import SocialLinks from '../socialMedia/socialMedia';
-import SafeImage from '@/lib/safeImage';
-import { ServiceCardData } from './service_card_types';
-import { Link_Prefix } from '@/lib/links';
+import { useEffect, useRef, useState, useMemo } from "react";
+import SocialLinks from "../socialMedia/socialMedia";
+import SafeImage from "@/lib/safeImage";
+import type { ServiceCardData } from "./service_card_types";
+import { Link_Prefix } from "@/lib/links";
 
 interface ServiceCardProps {
-  provider: ServiceCardData;
+  readonly provider: ServiceCardData;
 }
 
 export default function ServiceCard({ provider }: ServiceCardProps) {
-  const [expanded, setExpanded] = useState(false);
-  const cardRef = useRef<HTMLElement>(null);
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const cardRef = useRef<HTMLElement | null>(null);
 
   // Collapse on mobile when the card scrolls out of view
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function ServiceCard({ provider }: ServiceCardProps) {
 
   const handleTagClick = (tag: string) => {
     window.dispatchEvent(
-      new CustomEvent('trigger-global-search', { detail: tag })
+      new CustomEvent("trigger-global-search", { detail: tag })
     );
   };
 
@@ -41,37 +41,36 @@ export default function ServiceCard({ provider }: ServiceCardProps) {
     return Array.from(new Set(provider.phone.filter(Boolean)));
   }, [provider.phone]);
 
-  const imageLink: string = (() => {
-    if (provider.image.trim().length !== 0) {
-      return `${Link_Prefix}${provider.image}`;
-    }
-    return '/default_shop.jpg';
-  })();
-  
+  const imageLink = useMemo(() => {
+    const raw = provider.image?.trim();
+    return raw ? `${Link_Prefix}${raw}` : "/default_shop.jpg";
+  }, [provider.image]);
+
   return (
     <article
       ref={cardRef}
       id={provider.service_id}
-      className="z-60 group scroll-mt-28 flex w-full max-w-md h-min flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+      className="group z-60 flex h-fit w-full max-w-md scroll-mt-6 flex-col overflow-hidden rounded-xl border border-secondary-6 bg-primary-1 text-secondary shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
     >
       {/* Image Container */}
-      <div className="relative aspect-video w-full overflow-hidden bg-muted flex items-center justify-center">
-        <img
+      <div className="relative aspect-video w-full overflow-hidden bg-primary-3">
+        <SafeImage
           src={imageLink}
-          alt={provider.name || 'Service provider'}
-          // fill
+          alt={provider.name || "Service provider"}
+          fill
+          fallbackSrc="/default_shop.jpg"
           sizes="(max-width: 768px) 100vw, 450px"
-          className="object-cover transition-transform duration-500 group-hover:scale-105 h-min-[50px]"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>
 
       {/* Content Container */}
       <div className="flex flex-col gap-3 p-4 sm:gap-4 sm:p-5">
         <div>
-          <h3 className="text-lg font-bold tracking-tight text-foreground sm:text-xl">
+          <h3 className="text-lg font-bold tracking-tight text-secondary sm:text-xl">
             {provider.name}
           </h3>
-          <p className="mt-1 line-clamp-3 text-sm text-muted-foreground">
+          <p className="mt-1 line-clamp-3 text-sm text-secondary-4">
             {provider.description}
           </p>
         </div>
@@ -82,16 +81,17 @@ export default function ServiceCard({ provider }: ServiceCardProps) {
           onClick={() => setExpanded((curr) => !curr)}
           aria-expanded={expanded}
           aria-controls={`details-${provider.service_id}`}
-          className="w-full rounded-md bg-secondary/10 px-3 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-secondary/15 active:scale-[0.98] md:hidden"
+          className="w-full rounded-md bg-secondary/10 px-3 py-2 text-sm font-medium text-secondary transition-colors hover:bg-secondary/20 active:scale-[0.98] md:hidden"
         >
-          {expanded ? 'Show less ↑' : 'Show details ↓'}
+          {expanded ? "Show less ↑" : "Show details ↓"}
         </button>
 
         {/* Smooth Expandable Metadata Drawer using CSS Grid */}
         <div
           id={`details-${provider.service_id}`}
-          className={`grid transition-[grid-template-rows] duration-300 ease-out md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] ${expanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
-            }`}
+          className={`grid transition-[grid-template-rows] duration-300 ease-out md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] ${
+            expanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+          }`}
         >
           <div className="overflow-hidden">
             <div className="flex flex-col gap-2.5 pt-1 text-xs md:text-sm">
@@ -113,14 +113,14 @@ export default function ServiceCard({ provider }: ServiceCardProps) {
 
               {provider.website?.trim() && (
                 <div className="flex min-w-0 items-center gap-1.5 pt-1">
-                  <span className="shrink-0 font-semibold text-muted-foreground">
+                  <span className="shrink-0 font-semibold text-secondary-4">
                     Website:
                   </span>
                   <a
                     href={provider.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="min-w-0 truncate text-primary underline hover:opacity-80"
+                    className="min-w-0 truncate text-link-text underline hover:opacity-80"
                   >
                     {provider.website}
                   </a>
@@ -129,14 +129,14 @@ export default function ServiceCard({ provider }: ServiceCardProps) {
 
               {uniquePhones.length > 0 && (
                 <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                  <span className="mr-0.5 font-semibold text-muted-foreground">
+                  <span className="mr-0.5 font-semibold text-secondary-4">
                     Phone:
                   </span>
                   {uniquePhones.map((phone) => (
                     <a
                       key={phone}
                       href={`tel:${phone}`}
-                      className="inline-flex items-center rounded-md bg-secondary/10 px-2 py-0.5 text-xs font-medium text-secondary-foreground transition-colors hover:bg-secondary/20 hover:underline"
+                      className="inline-flex items-center rounded-md bg-secondary/10 px-2 py-0.5 font-mono text-xs font-medium text-secondary transition-colors hover:bg-secondary/20 hover:underline"
                     >
                       {phone}
                     </a>
@@ -158,9 +158,9 @@ export default function ServiceCard({ provider }: ServiceCardProps) {
 }
 
 interface MetadataListProps {
-  title: string;
-  items?: string[];
-  onItemClick?: (item: string) => void;
+  readonly title: string;
+  readonly items?: readonly string[];
+  readonly onItemClick?: (item: string) => void;
 }
 
 export function MetadataList({
@@ -172,13 +172,13 @@ export function MetadataList({
 
   return (
     <div className="flex flex-wrap items-center gap-1.5">
-      <span className="mr-0.5 font-semibold text-muted-foreground">{title}:</span>
+      <span className="mr-0.5 font-semibold text-secondary-4">{title}:</span>
       {items.map((item, index) => (
         <button
           type="button"
           key={`${item}-${index}`}
           onClick={() => onItemClick?.(item)}
-          className="inline-flex cursor-pointer items-center rounded-md bg-secondary/10 px-2 py-0.5 text-xs font-medium text-secondary-foreground transition-all hover:bg-secondary/20 active:scale-95"
+          className="inline-flex cursor-pointer items-center rounded-md bg-secondary/10 px-2 py-0.5 text-xs font-medium text-secondary transition-all hover:bg-secondary/20 active:scale-95"
         >
           {item}
         </button>

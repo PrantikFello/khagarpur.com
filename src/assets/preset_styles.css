@@ -63,11 +63,23 @@
 /* ==========================================================================
    3. BASE RESETS & GLOBAL STYLES
    ========================================================================== */
+
+/* In preset_styles.css — @layer base */
 @layer base {
-  html,
+  html {
+    /* Locks cleanly to sections without freezing if a section is slightly taller than 100vh */
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
   body {
     margin: 0;
     padding: 0;
+    width: 100%;
+    min-height: 100svh;
+    overflow-x: hidden;
     background-color: var(--omni-bg);
     color: var(--omni-txt);
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -155,7 +167,6 @@
   }
 }
 
-
 @layer utilities {
   .box-pattern {
     --pattern-opacity: 30%;
@@ -231,12 +242,13 @@
 
 @layer utilities {
   .snap_container {
-    @apply snap-y snap-proximity overflow-y-auto h-[calc(100vh-85px)] md:h-[calc(100vh-75px)];
+    @apply w-full;
   }
   .snap_div {
-    @apply snap-start h-[calc(100vh-85px)] md:h-[calc(100vh-75px)];
+    @apply snap-start min-h-[100svh] w-full flex flex-col justify-center;
   }
 }
+
 @layer utilities {
   .blur_color_div {
     background: var(--color-primary);
@@ -261,9 +273,6 @@
     }
   }
 }
-
-
-
 
 /* 4-byte GPU float angle uniform — enables smooth conic-gradient interpolation */
 @property --border-angle {

@@ -8,7 +8,7 @@ export default function ServiceCardIterator() {
 
   if (isPending) {
     return (
-      <div className="flex items-center justify-center p-8 text-muted-foreground">
+      <div className="snap_div flex items-center justify-center p-8 text-secondary-4">
         <p>Loading services...</p>
       </div>
     );
@@ -16,7 +16,7 @@ export default function ServiceCardIterator() {
 
   if (isError) {
     return (
-      <div className="flex items-center justify-center p-8 text-destructive">
+      <div className="snap_div flex items-center justify-center p-8 text-red-500">
         <p>Error: {error?.message || "Failed to load services"}</p>
       </div>
     );
@@ -24,20 +24,17 @@ export default function ServiceCardIterator() {
 
   if (!businesses || businesses.length === 0) {
     return (
-      <div className="flex items-center justify-center p-8 text-muted-foreground">
+      <div className="snap_div flex items-center justify-center p-8 text-secondary-4">
         <p>No services found.</p>
       </div>
     );
   }
 
   return (
-    <div className="z-70 flex flex-wrap items-stretch justify-center gap-6 p-4">
+    <section className="snap-start z-70 flex min-h-[100svh] w-full flex-wrap items-start justify-center gap-6 p-4 md:p-8">
       {businesses.map((provider) => (
-        <ServiceCard
-          key={provider.service_id}
-          provider={provider}
-        />
+        <ServiceCard key={provider.service_id} provider={provider} />
       ))}
-    </div>
+    </section>
   );
 }
